@@ -27,6 +27,15 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+    <!--
+     To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
+     option is required to comply with the Google+ Sign-In developer policies
+    -->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" /> <!-- To retrieve the account name (email) as part of sign-in: -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -40,13 +49,45 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:name="._HomeActivity"
+
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps" >
+        </activity>
+        <activity
+            android:name=".GetDirection"
+            android:label="@string/title_activity_get_direction" >
+        </activity>
+        <activity
+            android:name="._RegisterActivity"
+            android:label="@string/title_activity___register" >
+        </activity>
+        <activity
+            android:name="._ViewApp1Activity"
+            android:label="@string/title_activity___view_app1" >
+        </activity>
+        <activity
+            android:name="._TestRideApp1Activity"
+            android:label="@string/title_activity___test_ride_app1" >
+        </activity>
+        <activity
+            android:name="._ViewApp2Activity"
+            android:label="@string/title_activity___view_app2" >
+        </activity>
+        <activity
+            android:name="._SubmitApp2Activity"
+            android:label="@string/title_activity___submit_app2" >
+        </activity>
+        <activity
+            android:name="._SettingActivity"
+            android:label="@string/title_activity___setting" >
         </activity>
     </application>
 
