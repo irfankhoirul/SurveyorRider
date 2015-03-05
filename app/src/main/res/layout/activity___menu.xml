@@ -1,0 +1,42 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ff8419">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20px"
+        android:layout_marginRight="20px"
+        android:paddingBottom="20px"
+        android:paddingTop="20px"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="#ff8419"
+        >
+
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="SurveyorRider"
+            android:layout_marginBottom="25px"
+            android:id="@+id/_act3_bt_app1" />
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="PhotoMap"
+            android:layout_marginBottom="25px"
+            android:id="@+id/_act3_bt_app2" />
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Setting"
+            android:layout_marginBottom="25px"
+            android:id="@+id/_act3_bt_setting" />
+    </LinearLayout>
+</ScrollView>

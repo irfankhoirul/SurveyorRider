@@ -48,12 +48,10 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name="._HomeActivity"
-
-            >
+        <activity android:name="._HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -88,6 +86,26 @@
         <activity
             android:name="._SettingActivity"
             android:label="@string/title_activity___setting" >
+        </activity>
+        <activity
+            android:name="._MenuActivity"
+            android:label="@string/title_activity___menu" >
+        </activity>
+        <activity
+            android:name="._App1Activity"
+            android:label="@string/title_activity___app1" >
+        </activity>
+        <activity
+            android:name="._App2Activity"
+            android:label="@string/title_activity___app2" >
+        </activity>
+        <activity
+            android:name="._AccelerometerActivity"
+            android:label="@string/title_activity___accelerometer" >
+        </activity>
+        <activity
+            android:name=".Ukur"
+            android:label="Ukur" >
         </activity>
     </application>
 

@@ -1,26 +1,49 @@
 package proyekakhir.mapdemo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 
 
-public class GetDirection extends Activity {
+public class _App1Activity extends Activity {
 
+    Button _act4_bt_Run;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_get_direction);
+        setContentView(R.layout.activity___app1);
+
+        _act4_bt_Run = (Button)findViewById(R.id._act4_bt_Run);
+        _act4_bt_Run.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+
+                Intent i = new Intent (_App1Activity.this,_TestRideApp1Activity.class);
+                startActivity(i);
+
+            //    Intent j = new Intent (_App1Activity.this,_AccelerometerActivity.class);
+            //    startActivity(j);
+
+            //    Intent[] a = new Intent[2];
+            //    a[0]=i;
+            //    a[1]=j;
+            //    startActivities(a);
+            }
+        });
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_get_direction, menu);
+        getMenuInflater().inflate(R.menu.menu___app1, menu);
         return true;
     }
 

@@ -23,7 +23,7 @@
             android:inputType="textPersonName"
             android:hint="Username"
             android:ems="10"
-            android:id="@+id/editText3"
+            android:id="@+id/_act1_tf_username"
             android:layout_marginBottom="15px"
             />
 
@@ -33,7 +33,7 @@
             android:inputType="textPassword"
             android:hint="Password"
             android:ems="10"
-            android:id="@+id/editText2"
+            android:id="@+id/_act1_tf_password"
             android:layout_marginBottom="15px"/>
 
         <Button
