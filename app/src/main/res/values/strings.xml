@@ -18,5 +18,8 @@
     <string name="title_activity___app1">_App1Activity</string>
     <string name="title_activity___app2">_App2Activity</string>
     <string name="title_activity___accelerometer">_AccelerometerActivity</string>
+    <string name="title_activity___test_ride_app1_result">_TestRideApp1ResultActivity</string>
+    <string name="title_activity___test_ride_app1_preparation">_TestRideApp1PreparationActivity
+    </string>
 
 </resources>

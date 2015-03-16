@@ -1,13 +1,19 @@
 package proyekakhir.mapdemo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,45 +27,131 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class _TestRideApp1Activity extends FragmentActivity implements SensorEventListener {
+public class _TestRideApp1Activity extends FragmentActivity implements SensorEventListener, LocationListener {
 
+    //----MAP----//
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
+    //----ACCELEROMETER----//
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private int count=0;
     private boolean timerstart = false;
-
     private boolean stopSave = false;
+    private boolean ACCELEROMETER_START = false;
 
-    ArrayList<Float> x = new ArrayList<Float>();
-    ArrayList<Float> y = new ArrayList<Float>();
-    ArrayList<Float> z = new ArrayList<Float>();
-    ArrayList<Integer> mdetik = new ArrayList<Integer>();
+    //Data yang diambil//
+    ArrayList<Float> x = new ArrayList<>();
+    ArrayList<Float> y = new ArrayList<>();
+    ArrayList<Float> z = new ArrayList<>();
+    ArrayList<Float> speed = new ArrayList<>();
+    ArrayList<Float> latitude = new ArrayList<>();
+    ArrayList<Float> longitude = new ArrayList<>();
+//    ArrayList<Integer> mdetik = new ArrayList<>();
 
-    private TextView _act6_text_axisvalue;
+    //----ALL----//
+    private TextView _act6_text_axisvalue, _act6_text_speed;
 
+    //---------------------------------------------------------------------------------------------------
+    //----ALL----//--------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity___test_ride_app1);
         initializeViews();
+
+        //----MAP----//
         setUpMapIfNeeded();
 
+        //----ACCELEROMETER----??
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
             // success! we have an accelerometer
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
             Toast.makeText(getApplicationContext(), "Here we go!", Toast.LENGTH_SHORT).show();
+            ACCELEROMETER_START = true;
         }
         else {
             // fai! we dont have an accelerometer!
             Toast.makeText(getApplicationContext(), "Oops!", Toast.LENGTH_SHORT).show();
         }
 
+        //----SPEED----//
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        // Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                //    location.getLatitude();
+                //    Toast.makeText(getApplicationContext(), "Current speed:" + location.getSpeed(),
+                //            Toast.LENGTH_SHORT).show();
+                _act6_text_speed.setText(Float.toString(location.getSpeed()));
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+            public void onProviderEnabled(String provider) {
+            }
+
+            public void onProviderDisabled(String provider) {
+            }
+        };
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+        mulai();
     }
 
+    public void mulai()
+    {
+        //    Toast.makeText(getApplicationContext(), "Timer Started", Toast.LENGTH_SHORT).show();
+        Timer T=new Timer();
+        T.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        int milidetik = count;
+                        int detik = count / 10;
+                        milidetik %= 10;
+
+//                            mdetik.add(count);
+                        _act6_text_axisvalue.setText(Integer.toString(detik));
+
+                        count++;
+                    }
+                });
+            }
+        },0,100);
+    }
+
+    public void initializeViews() {
+        _act6_text_axisvalue = (TextView) findViewById(R.id._act6_text_axisvalue);
+        _act6_text_speed = (TextView) findViewById(R.id._act6_text_speed);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
+    }
+
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+    }
+
+    //---------------------------------------------------------------------------------------------------
+    //----MAP----//--------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
@@ -95,6 +187,52 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
         //    mMap.setOnMyLocationChangeListener(myLocationChangeListener);
 
     }
+
+    //---------------------------------------------------------------------------------------------------
+    //----ACCELEROMETER----//----------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+    //    _act6_text_axisvalue.setText("X : "+Float.toString(event.values[0])+" Y : "+Float.toString(event.values[1])+" Z : "+Float.toString(event.values[2]));
+    //    if (timerstart == false)
+    //        timer(event);
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    public void timer(SensorEvent event)
+    {
+        //    Toast.makeText(getApplicationContext(), "Timer Started", Toast.LENGTH_SHORT).show();
+            timerstart=true;
+            Timer T=new Timer();
+            final SensorEvent ev=event;
+            T.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            int milidetik = count;
+                            int detik = count / 10;
+                            milidetik %= 10;
+                            x.add(ev.values[0]);
+                            y.add(ev.values[1]);
+                            z.add(ev.values[2]);
+//                            mdetik.add(count);
+
+                            count++;
+                        }
+                    });
+                }
+            },0,100);
+    }
+
     public ArrayList<Float> hitungF(ArrayList yy){
         ArrayList<Float> F = new ArrayList<Float>();
         float tempM = 0,k=0;
@@ -111,90 +249,52 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
         return F;
     }
 
-    public void timer(SensorEvent event)
-    {
-    //    Toast.makeText(getApplicationContext(), "Timer Started", Toast.LENGTH_SHORT).show();
-
-        timerstart=true;
-        Timer T=new Timer();
-        final SensorEvent ev=event;
-        T.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        int milidetik = count;
-                        int detik = count/10;
-                        milidetik%=10;
-                        //     if(stopSave = false) {
-                        //    ms.setText(Integer.toString(milidetik));
-                        //    s.setText(Integer.toString(detik));
-                        x.add(ev.values[0]);
-                        y.add(ev.values[1]);
-                        z.add(ev.values[2]);
-                        mdetik.add(count);
-                        //     }
-//                        hasil.add(new Pengukuran(count,ev.values[1]));
-
-                        //    displayCurrentValues(ev);
-                        //    Toast.makeText(getApplicationContext(), "Y : "+Float.toString(ev.values[1]), Toast.LENGTH_SHORT).show();
-
-                        _act6_text_axisvalue.setText(Integer.toString(detik));
-                        count++;
-                    }
-                });
-            }
-        },0,100);
-    }
-
-
-    public void initializeViews() {
-        _act6_text_axisvalue = (TextView) findViewById(R.id._act6_text_axisvalue);
-    }
-
-    protected void onResume() {
-        super.onResume();
-//        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-
-        setUpMapIfNeeded();
-    }
-
-    protected void onPause() {
-        super.onPause();
-        //    sensorManager.unregisterListener(this);
+    //---------------------------------------------------------------------------------------------------
+    //----SPEED----//------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------
+    @Override
+    public void onLocationChanged(Location location) {
+    //    _act6_text_speed.setText(Float.toString(location.getSpeed()));
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
-        if(timerstart==false)
-            timer(event);
-    //    _act6_text_axisvalue.setText("X : "+Float.toString(event.values[0])+" - Y : "+Float.toString(event.values[1])+" - Z : "+Float.toString(event.values[2]));
+    public void onProviderEnabled(String provider) {
 
-        // clean current values
-//        displayCleanValues();
-        // display the current x,y,z accelerometer values
-//        displayCurrentValues(event);
-        // display the max x,y,z accelerometer values
-    //    displayMaxValues();
+    }
 
-        // get the change of the x,y,z values of the accelerometer
-    //    deltaX = Math.abs(lastX - event.values[0]);
-    //    deltaY = Math.abs(lastY - event.values[1]);
-    //    deltaZ = Math.abs(lastZ - event.values[2]);
+    @Override
+    public void onProviderDisabled(String provider) {
 
-        // if the change is below 2, it is just plain noise
-    //    if (deltaX < 2)
-    //        deltaX = 0;
-    //    if (deltaY < 2)
-    //        deltaY = 0;
+    }
+
+    //Option Menu//
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu___test_ride_app1, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menu___test_ride_app1_stop:
+                Toast.makeText(getApplicationContext(), "Stopped!", Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent (_TestRideApp1Activity.this,_TestRideApp1ResultActivity.class);
+                startActivity(i);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

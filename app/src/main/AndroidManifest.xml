@@ -107,6 +107,14 @@
             android:name=".Ukur"
             android:label="Ukur" >
         </activity>
+        <activity
+            android:name="._TestRideApp1ResultActivity"
+            android:label="@string/title_activity___test_ride_app1_result" >
+        </activity>
+        <activity
+            android:name="._TestRideApp1PreparationActivity"
+            android:label="@string/title_activity___test_ride_app1_preparation" >
+        </activity>
     </application>
 
 </manifest>

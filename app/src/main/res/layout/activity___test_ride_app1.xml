@@ -8,12 +8,25 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Accelerometer : "
-            android:id="@+id/_act6_text_axisvalue" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Accelerometer : "
+                android:id="@+id/_act6_text_axisvalue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Speed : "
+                android:id="@+id/_act6_text_speed" />
+        </LinearLayout>
 
         <fragment
             xmlns:android="http://schemas.android.com/apk/res/android"

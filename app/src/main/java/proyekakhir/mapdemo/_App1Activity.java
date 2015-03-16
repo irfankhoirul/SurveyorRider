@@ -24,17 +24,9 @@ public class _App1Activity extends Activity {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-
-                Intent i = new Intent (_App1Activity.this,_TestRideApp1Activity.class);
+                Intent i = new Intent (_App1Activity.this,_TestRideApp1PreparationActivity.class);
                 startActivity(i);
-
-            //    Intent j = new Intent (_App1Activity.this,_AccelerometerActivity.class);
-            //    startActivity(j);
-
-            //    Intent[] a = new Intent[2];
-            //    a[0]=i;
-            //    a[1]=j;
-            //    startActivities(a);
+//                setContentView(R.layout.activity___test_ride_app1_prep);
             }
         });
     }
@@ -44,7 +36,7 @@ public class _App1Activity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu___app1, menu);
-        return true;
+        return false;
     }
 
     @Override

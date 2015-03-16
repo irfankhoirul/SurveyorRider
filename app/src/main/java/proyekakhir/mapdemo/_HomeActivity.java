@@ -23,7 +23,11 @@ public class _HomeActivity extends Activity {
         _act1_bt_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
+                //--Proses Login--//
+
+                //--Get and Save User Data to User Class--//
+
+                //--Show Main Menu if login Sukses//
                 Intent i = new Intent (_HomeActivity.this,_MenuActivity.class);
                 startActivity(i);
             }
