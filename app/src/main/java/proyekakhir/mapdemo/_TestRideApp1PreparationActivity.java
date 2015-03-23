@@ -1,18 +1,14 @@
 package proyekakhir.mapdemo;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,13 +16,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
-public class _TestRideApp1PreparationActivity extends FragmentActivity implements LocationListener {
+public class _TestRideApp1PreparationActivity extends FragmentActivity {
 
     //----MAP----//
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-
-    //----ALL----//
-    private TextView _act6_text_axisvalue, _act6_text_speed;
 
     //---------------------------------------------------------------------------------------------------
     //----ALL----//--------------------------------------------------------------------------------------
@@ -34,41 +27,11 @@ public class _TestRideApp1PreparationActivity extends FragmentActivity implement
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity___test_ride_app1_preparation);
-        initializeViews();
+        setContentView(R.layout.activity___test_ride_app1);
 
         //----MAP----//
         setUpMapIfNeeded();
 
-        //----SPEED----//
-        // Acquire a reference to the system Location Manager
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        // Define a listener that responds to location updates
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                //    location.getLatitude();
-                //    Toast.makeText(getApplicationContext(), "Current speed:" + location.getSpeed(),
-                //            Toast.LENGTH_SHORT).show();
-                _act6_text_speed.setText(Float.toString(location.getSpeed()));
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-            }
-
-            public void onProviderEnabled(String provider) {
-            }
-
-            public void onProviderDisabled(String provider) {
-            }
-        };
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
-    }
-
-    public void initializeViews() {
-        _act6_text_axisvalue = (TextView) findViewById(R.id._act6_text_axisvalue);
-        _act6_text_speed = (TextView) findViewById(R.id._act6_text_speed);
     }
 
     protected void onResume() {
@@ -101,11 +64,13 @@ public class _TestRideApp1PreparationActivity extends FragmentActivity implement
 
     private void setUpMap() {
         mMap.setMyLocationEnabled(true);
+//        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
 
         GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
             @Override
             public void onMyLocationChange(Location location) {
-                mMap.clear();
+                Toast.makeText(getApplicationContext(), "Location Changed!", Toast.LENGTH_SHORT).show();
+                //    mMap.clear();
                 LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
                 if(mMap != null){
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
@@ -114,29 +79,6 @@ public class _TestRideApp1PreparationActivity extends FragmentActivity implement
         };
 
         mMap.setOnMyLocationChangeListener(myLocationChangeListener);
-
-    }
-
-    //---------------------------------------------------------------------------------------------------
-    //----SPEED----//------------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------------------------
-    @Override
-    public void onLocationChanged(Location location) {
-        //    _act6_text_speed.setText(Float.toString(location.getSpeed()));
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
 
     }
 

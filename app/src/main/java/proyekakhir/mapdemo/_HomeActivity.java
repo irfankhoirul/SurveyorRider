@@ -19,6 +19,8 @@ public class _HomeActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity___home);
 
+
+
         _act1_bt_login = (Button)findViewById(R.id._act1_bt_login);
         _act1_bt_login.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff8419">
+    >
 
     <LinearLayout
         android:orientation="vertical"
@@ -14,7 +14,7 @@
         android:paddingTop="20px"
         android:gravity="center"
         android:layout_gravity="center"
-        android:background="#ff8419"
+
         >
 
         <Button

@@ -8,7 +8,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -16,12 +15,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -31,6 +30,7 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
 
     //----MAP----//
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private Location FIRST_LOCATION;
 
     //----ACCELEROMETER----//
     private SensorManager sensorManager;
@@ -45,12 +45,15 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
     ArrayList<Float> y = new ArrayList<>();
     ArrayList<Float> z = new ArrayList<>();
     ArrayList<Float> speed = new ArrayList<>();
-    ArrayList<Float> latitude = new ArrayList<>();
-    ArrayList<Float> longitude = new ArrayList<>();
+    ArrayList<Float> arr_latitude = new ArrayList<>();
+    ArrayList<Float> arr_longitude = new ArrayList<>();
 //    ArrayList<Integer> mdetik = new ArrayList<>();
 
     //----ALL----//
-    private TextView _act6_text_axisvalue, _act6_text_speed;
+    private TextView _act6_txt_detailLat, _act6_txt_detailLong, _act6_txt_detailSpeed,
+            _act6_txt_detailDistance, _act6_txt_xaxis, _act6_txt_yaxis, _act6_txt_zaxis,
+            _act6_txt_time;
+    private ViewFlipper flipper;
 
     //---------------------------------------------------------------------------------------------------
     //----ALL----//--------------------------------------------------------------------------------------
@@ -59,6 +62,7 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity___test_ride_app1);
+
         initializeViews();
 
         //----MAP----//
@@ -78,36 +82,10 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
             Toast.makeText(getApplicationContext(), "Oops!", Toast.LENGTH_SHORT).show();
         }
 
-        //----SPEED----//
-        // Acquire a reference to the system Location Manager
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        // Define a listener that responds to location updates
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                //    location.getLatitude();
-                //    Toast.makeText(getApplicationContext(), "Current speed:" + location.getSpeed(),
-                //            Toast.LENGTH_SHORT).show();
-                _act6_text_speed.setText(Float.toString(location.getSpeed()));
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-            }
-
-            public void onProviderEnabled(String provider) {
-            }
-
-            public void onProviderDisabled(String provider) {
-            }
-        };
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
         mulai();
     }
 
-    public void mulai()
-    {
-        //    Toast.makeText(getApplicationContext(), "Timer Started", Toast.LENGTH_SHORT).show();
+    public void mulai(){
         Timer T=new Timer();
         T.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -117,13 +95,8 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
                     @Override
                     public void run()
                     {
-                        int milidetik = count;
                         int detik = count / 10;
-                        milidetik %= 10;
-
-//                            mdetik.add(count);
-                        _act6_text_axisvalue.setText(Integer.toString(detik));
-
+                        timeConverter(detik);
                         count++;
                     }
                 });
@@ -131,9 +104,27 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
         },0,100);
     }
 
+    public void timeConverter(int time){
+        int jam, menit, detik, temp;
+
+        jam = time/3600;
+        temp = time%3600;
+        menit = temp/60;
+        detik = temp%60;
+
+        _act6_txt_time.setText(Integer.toString(jam)+":"+Integer.toString(menit)+":"+Integer.toString(detik));
+    }
+
     public void initializeViews() {
-        _act6_text_axisvalue = (TextView) findViewById(R.id._act6_text_axisvalue);
-        _act6_text_speed = (TextView) findViewById(R.id._act6_text_speed);
+        _act6_txt_detailLat = (TextView) findViewById(R.id._act6_txt_detailLat); //ok
+        _act6_txt_detailLong = (TextView) findViewById(R.id._act6_txt_detailLong); //ok
+        _act6_txt_detailSpeed = (TextView) findViewById(R.id._act6_txt_detailSpeed); //test
+        _act6_txt_detailDistance = (TextView) findViewById(R.id._act6_txt_detailDistance); //
+        _act6_txt_xaxis = (TextView) findViewById(R.id._act6_txt_xaxis); //test
+        _act6_txt_yaxis = (TextView) findViewById(R.id._act6_txt_yaxis); //test
+        _act6_txt_zaxis = (TextView) findViewById(R.id._act6_txt_zaxis); //test
+        _act6_txt_time = (TextView) findViewById(R.id._act6_txt_time); //test
+        flipper = (ViewFlipper) findViewById(R.id.viewFlipper2);
     }
 
     protected void onResume() {
@@ -145,9 +136,9 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
         super.onPause();
     }
 
-    @Override
-    public void onBackPressed() {
-    }
+//    @Override
+//    public void onBackPressed() {
+//    }
 
     //---------------------------------------------------------------------------------------------------
     //----MAP----//--------------------------------------------------------------------------------------
@@ -170,21 +161,40 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
     private void setUpMap() {
         mMap.setMyLocationEnabled(true);
 //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-
         GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
+            Location prev, now;
+            boolean firstChange = true;
+            double distance = 0.0;
+
             @Override
             public void onMyLocationChange(Location location) {
-                mMap.clear();
+            //    Toast.makeText(getApplicationContext(), "Location Changed!", Toast.LENGTH_SHORT).show();
+            //    mMap.clear();
                 LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                //    Toast.makeText(getApplicationContext(), "Lat : "+String.valueOf(location.getLatitude()), Toast.LENGTH_SHORT).show();
-                mMap.addMarker(new MarkerOptions().position(loc));
                 if(mMap != null){
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
                 }
+                _act6_txt_detailSpeed.setText(Float.toString(location.getSpeed()*36/10)+" KM/h");
+                _act6_txt_detailLat.setText(Double.toString(location.getLatitude()));
+                _act6_txt_detailLong.setText(Double.toString(location.getLongitude()));
+
+                if(firstChange==true) {
+                    now.setLatitude(location.getLatitude());
+                    now.setLongitude(location.getLongitude());
+                    firstChange=false;
+                }else {
+                    prev = now;
+                    now.setLatitude(location.getLatitude());
+                    now.setLongitude(location.getLongitude());
+
+                    distance+=prev.distanceTo(now);
+                }
+
+                _act6_txt_detailDistance.setText(Double.toString(distance));
             }
         };
 
-        //    mMap.setOnMyLocationChangeListener(myLocationChangeListener);
+        mMap.setOnMyLocationChangeListener(myLocationChangeListener);
 
     }
 
@@ -193,44 +203,14 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
     //---------------------------------------------------------------------------------------------------
     @Override
     public void onSensorChanged(SensorEvent event) {
-    //    _act6_text_axisvalue.setText("X : "+Float.toString(event.values[0])+" Y : "+Float.toString(event.values[1])+" Z : "+Float.toString(event.values[2]));
-    //    if (timerstart == false)
-    //        timer(event);
-
+        _act6_txt_xaxis.setText(Float.toString(event.values[0]));
+        _act6_txt_yaxis.setText(Float.toString(event.values[1]));
+        _act6_txt_zaxis.setText(Float.toString(event.values[2]));
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-    }
-
-    public void timer(SensorEvent event)
-    {
-        //    Toast.makeText(getApplicationContext(), "Timer Started", Toast.LENGTH_SHORT).show();
-            timerstart=true;
-            Timer T=new Timer();
-            final SensorEvent ev=event;
-            T.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            int milidetik = count;
-                            int detik = count / 10;
-                            milidetik %= 10;
-                            x.add(ev.values[0]);
-                            y.add(ev.values[1]);
-                            z.add(ev.values[2]);
-//                            mdetik.add(count);
-
-                            count++;
-                        }
-                    });
-                }
-            },0,100);
     }
 
     public ArrayList<Float> hitungF(ArrayList yy){
@@ -254,7 +234,7 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
     //---------------------------------------------------------------------------------------------------
     @Override
     public void onLocationChanged(Location location) {
-    //    _act6_text_speed.setText(Float.toString(location.getSpeed()));
+
     }
 
     @Override
@@ -291,6 +271,24 @@ public class _TestRideApp1Activity extends FragmentActivity implements SensorEve
                 Intent i = new Intent (_TestRideApp1Activity.this,_TestRideApp1ResultActivity.class);
                 startActivity(i);
 
+                return true;
+            case R.id.menu___test_ride_app1_detail:
+                /*
+
+                if(_act6_panel_detail.getVisibility() == View.VISIBLE) {
+                    _act6_panel_detail.setVisibility(View.INVISIBLE);
+                    _act6_panel_map.setVisibility(View.VISIBLE);
+                //    setUpMapIfNeeded();
+                }
+                else {
+                    _act6_panel_map.setVisibility(View.INVISIBLE);
+
+                    _act6_panel_detail.setVisibility(View.VISIBLE);
+                    _act6_panel_detail.setGravity(Gravity.RIGHT | Gravity.BOTTOM);
+                }
+                */
+
+                flipper.showNext();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

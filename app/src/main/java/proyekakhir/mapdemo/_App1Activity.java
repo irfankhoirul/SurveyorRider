@@ -25,6 +25,7 @@ public class _App1Activity extends Activity {
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
                 Intent i = new Intent (_App1Activity.this,_TestRideApp1PreparationActivity.class);
+        //        Intent i = new Intent (_App1Activity.this,_TestRideApp1Activity.class);
                 startActivity(i);
 //                setContentView(R.layout.activity___test_ride_app1_prep);
             }

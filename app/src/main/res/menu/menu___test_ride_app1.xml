@@ -6,5 +6,9 @@
         android:title="Stop"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item android:id="@+id/menu___test_ride_app1_detail"
+        android:title="Show / Hide Detail"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 
 </menu>
