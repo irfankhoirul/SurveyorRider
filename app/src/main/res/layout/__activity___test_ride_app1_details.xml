@@ -1,118 +1,58 @@
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="20px"
+    android:layout_marginRight="20px"
+    android:paddingBottom="20px"
+    android:paddingTop="20px"
+    android:gravity="center"
+    android:layout_gravity="center"
     >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5pt"
-        android:layout_marginTop="10pt"
-        android:weightSum="1"
-        android:baselineAligned="false"
-        android:orientation="vertical">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView2" >
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:gravity="center_horizontal">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <RadioButton
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Register as Admin"
+                android:id="@+id/radioButton"
+                android:checked="false" />
+
+            <RadioButton
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Register as User"
+                android:id="@+id/radioButton2"
+                android:checked="false" />
+
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5pt"
-                android:layout_gravity="center_vertical">
+                android:inputType="textPersonName"
+                android:hint="Admin Token"
+                android:ems="10"
+                android:id="@+id/_act2_tf_token"
+                android:layout_marginBottom="15px"
+                />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="- Latitude : "
-                    android:layout_marginBottom="5pt"
-                    android:layout_marginLeft="10pt"
-                    android:id="@+id/textView2"
-                    android:layout_gravity="right" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="- Longitude : "
-                    android:layout_marginBottom="5pt"
-                    android:layout_marginLeft="10pt"
-                    android:id="@+id/textView3"
-                    android:layout_gravity="right" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="- Speed : "
-                    android:layout_marginBottom="5pt"
-                    android:layout_marginLeft="10pt"
-                    android:id="@+id/textView4"
-                    android:layout_gravity="right" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="- Distance : "
-                    android:layout_marginBottom="5pt"
-                    android:layout_marginLeft="10pt"
-                    android:id="@+id/textView5"
-                    android:layout_gravity="right" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
+            <Button
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="5pt"
-                android:layout_gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="0"
-                    android:layout_marginBottom="5pt"
-                    android:layout_marginLeft="10pt"
-                    android:id="@+id/_act6_txt_detailLat"
-                    android:layout_gravity="right" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="0"
-                    android:layout_marginBottom="5pt"
-                    android:layout_marginLeft="10pt"
-                    android:id="@+id/_act6_txt_detailLong"
-                    android:layout_gravity="right" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="0"
-                    android:layout_marginBottom="5pt"
-                    android:layout_marginLeft="10pt"
-                    android:id="@+id/_act6_txt_detailSpeed"
-                    android:layout_gravity="right" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="0"
-                    android:layout_marginBottom="5pt"
-                    android:layout_marginLeft="10pt"
-                    android:id="@+id/_act6_txt_detailDistance"
-                    android:layout_gravity="right" />
-
-            </LinearLayout>
+                android:text="Next"
+                android:id="@+id/_act2_bt_next"
+                android:layout_marginBottom="15px"/>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+</LinearLayout>
